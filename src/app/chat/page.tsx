@@ -54,7 +54,6 @@ export default function Home() {
     const lastMessage = messagesWithSystem[messagesWithSystem.length - 1];
 
     if (lastMessage && lastMessage.role === "assistant") {
-      console.log(lastMessage);
       setHasStartedTyping(true);
     }
   }, [messagesWithSystem, isLoading]);
