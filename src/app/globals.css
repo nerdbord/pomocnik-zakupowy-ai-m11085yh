@@ -25,3 +25,30 @@ button {
   color: inherit;
   background-color: inherit;
 }
+
+.loader {
+  width: 25px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(circle closest-side, white 90%, #0000);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 100%;
+  background-position: 0% 50%, 50% 50%, 100% 50%; /* Adjusting the position */
+  background-size: calc(80% / 3) 100%, calc(80% / 3) 100%, calc(80% / 3) 100%; /* Increased spacing between balls */
+  animation: l7 1s infinite linear;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes l7 {
+  33% {
+    background-size: calc(80% / 3) 0%, calc(80% / 3) 100%, calc(80% / 3) 100%;
+  }
+  50% {
+    background-size: calc(80% / 3) 100%, calc(80% / 3) 0%, calc(80% / 3) 100%;
+  }
+  66% {
+    background-size: calc(80% / 3) 100%, calc(80% / 3) 100%, calc(80% / 3) 0%;
+  }
+}

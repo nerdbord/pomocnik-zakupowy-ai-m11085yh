@@ -23,3 +23,4 @@ export const Header = ({ onAddClick }: Props) => {
     </div>
   );
 };
+/* HTML: <div class="loader"></div> */
