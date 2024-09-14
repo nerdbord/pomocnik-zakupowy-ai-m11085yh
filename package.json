@@ -12,6 +12,7 @@
     "@langchain/core": "^0.2.32",
     "@langchain/langgraph": "^0.2.2",
     "@langchain/openai": "^0.2.11",
+    "@mendable/firecrawl-js": "^1.4.3",
     "axios": "^1.7.7",
     "next": "14.2.11",
     "react": "^18",

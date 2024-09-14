@@ -54,7 +54,7 @@ export default function SearchForm() {
       {results && (
         <div>
           <h2>Results:</h2>
-          <pre>{JSON.stringify(results, null, 2)}</pre>
+          <pre>{JSON.stringify(results)}</pre>
         </div>
       )}
     </div>
