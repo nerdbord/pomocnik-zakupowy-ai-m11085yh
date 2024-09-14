@@ -26,6 +26,13 @@ button {
   background-color: inherit;
 }
 
+.background {
+  background: var(
+    --Gradient,
+    linear-gradient(168deg, #5b21b6 0%, #111827 100%)
+  );
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }

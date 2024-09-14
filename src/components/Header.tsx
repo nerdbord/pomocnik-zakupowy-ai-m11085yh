@@ -15,7 +15,7 @@ export const Header = ({ onAddClick }: Props) => {
       >
         <button
           onClick={onAddClick}
-          className="h-12 w-12 border flex items-center justify-center rounded-full"
+          className="h-12 w-12 flex items-center justify-center rounded-full bg-violet-500 text-white"
         >
           <GoPlus className="h-6 w-6" />
         </button>
@@ -23,4 +23,3 @@ export const Header = ({ onAddClick }: Props) => {
     </div>
   );
 };
-/* HTML: <div class="loader"></div> */
