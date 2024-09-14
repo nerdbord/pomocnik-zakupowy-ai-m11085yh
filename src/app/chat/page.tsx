@@ -77,7 +77,10 @@ export default function Home() {
         <Pill text="Blue" />
       </div>
 
-      <form className="flex items-center flex-shrink-0" onSubmit={handleSubmit}>
+      <form
+        className="flex items-center flex-shrink-0 mb-4"
+        onSubmit={handleSubmit}
+      >
         <textarea
           ref={inputRef}
           rows={2}
