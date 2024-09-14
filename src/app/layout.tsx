@@ -22,7 +22,9 @@ export default function RootLayout({
       <body
         className={`${roboto.className} flex justify-center items-start min-h-screen`}
       >
-        {children}
+        <div className="flex flex-col justify-between h-[852px] w-[393px] border p-4 ">
+          {children}
+        </div>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ type Props = {
 
 export const Header = ({ onAddClick }: Props) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between pb-2">
       <h1 className="text-xl not-italic font-semibold leading-7">AI Zakupy</h1>
       <div
         className="tooltip tooltip-info tooltip-left"
