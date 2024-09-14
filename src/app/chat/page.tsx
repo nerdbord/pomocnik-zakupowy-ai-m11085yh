@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { ChatMessage } from "@/components/ChatMessage";
 import { Message, useChat } from "ai/react";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { Pill } from "@/components/Pill";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input } = useChat();
@@ -63,6 +64,18 @@ export default function Home() {
           </Fragment>
         ))}
       </ul>
+
+      <div className="flex gap-4 my-4 flex-wrap flex-shrink-0">
+        <Pill text="Sports" />
+        <Pill text="Running" />
+        <Pill text="Blue" />
+        <Pill text="Sports" />
+        <Pill text="Running" />
+        <Pill text="Blue" />
+        <Pill text="Sports" />
+        <Pill text="Running" />
+        <Pill text="Blue" />
+      </div>
 
       <form className="flex items-center flex-shrink-0" onSubmit={handleSubmit}>
         <textarea

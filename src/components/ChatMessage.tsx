@@ -31,12 +31,12 @@ export const ChatMessage = ({
     return (
       <li className="flex my-4 items-end">
         <div className="avatar flex-shrink-0 w-12 h-12 rounded-full bg-black mr-2 my-1 flex items-center justify-center">
-          <RiRobot2Line className="text-3xl text-fuchsia-600" />;
+          <RiRobot2Line className="text-3xl text-fuchsia-600" />
         </div>
 
         <div className="flex flex-col flex-grow">
-          <p className="text-xs text-gray-500 pl-4">
-            Shop assistance {currentTime}
+          <p className="text-xs text-zinc-300 pl-4">
+            Shop assistance <span className="text-zinc-400">{currentTime}</span>
           </p>
           <div className="chat chat-start">
             <div className="chat-bubble min-w-16 max-w-full bg-violet-500">
@@ -52,7 +52,9 @@ export const ChatMessage = ({
     return (
       <li className="flex my-4 items-end justify-end">
         <div className="flex flex-col flex-grow items-end">
-          <p className="text-xs text-gray-500 pr-4">You {currentTime}</p>
+          <p className="text-xs text-zinc-300  pr-4">
+            You <span className="text-zinc-400">{currentTime}</span>
+          </p>
           <div className="chat chat-end">
             <div className="chat-bubble min-w-16 max-w-full bg-fuchsia-600">
               {message}
