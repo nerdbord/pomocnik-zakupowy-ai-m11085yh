@@ -2,23 +2,24 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { ChatMessage } from "@/components/ChatMessage";
-import { Message, useChat } from "ai/react";
+import { useChat } from "ai/react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { Pill } from "@/components/Pill";
 
 export default function Home() {
-  const { messages, handleInputChange, handleSubmit, input, isLoading } =
-    useChat();
+  const { messages, handleInputChange, handleSubmit, input, isLoading, stop } =
+    useChat({
+      initialMessages: [
+        { role: "system", content: "How can I help you?", id: "1" },
+      ],
+    });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const messagesWithSystem: Message[] = [
-    { role: "system", content: "How can I help you?", id: "1" },
-    ...messages,
-  ];
-
   const loading = isLoading && !hasStartedTyping;
+
+  console.log("messages from chat", messages);
 
   const handleAddClick = () => {
     console.log("header button clicked");
@@ -51,12 +52,12 @@ export default function Home() {
       setHasStartedTyping(false);
     }
 
-    const lastMessage = messagesWithSystem[messagesWithSystem.length - 1];
+    const lastMessage = messages[messages.length - 1];
 
     if (lastMessage && lastMessage.role === "assistant") {
       setHasStartedTyping(true);
     }
-  }, [messagesWithSystem, isLoading]);
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-full justify-between p-4">
@@ -68,15 +69,33 @@ export default function Home() {
         ref={chatParent}
         className="flex-grow overflow-y-auto mb-4 no-scrollbar p-2"
       >
-        {messagesWithSystem.map(m => (
-          <Fragment key={m.id}>
-            {m.role === "user" ? (
-              <ChatMessage position="end" message={m.content} />
-            ) : (
-              <ChatMessage position="start" message={m.content} />
-            )}
-          </Fragment>
-        ))}
+        {messages.map(m => {
+          const toolInvocation = m.toolInvocations?.[0];
+
+          if (toolInvocation && toolInvocation.state === "result") {
+            stop();
+
+            const result = toolInvocation.result as {
+              url: string;
+              title: string;
+            }[];
+            return (
+              <div>
+                <pre>{JSON.stringify(result, null, 2)}</pre>
+              </div>
+            );
+          } else {
+            return (
+              <Fragment key={m.id}>
+                {m.content.length <= 1 ? null : m.role === "user" ? (
+                  <ChatMessage position="end" message={m.content} />
+                ) : (
+                  <ChatMessage position="start" message={m.content} />
+                )}
+              </Fragment>
+            );
+          }
+        })}
 
         {loading && (
           <ChatMessage position="start" message="" loading={loading} />
