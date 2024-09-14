@@ -29,7 +29,7 @@ export const ChatMessage = ({
 
   if (position === "start") {
     return (
-      <div className="flex my-4 items-end">
+      <li className="flex my-4 items-end">
         <div className="avatar flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 bg-gray-100 mr-2 my-1 flex items-center justify-center">
           <RiRobot2Line className="text-3xl text-gray-500" />
         </div>
@@ -44,13 +44,13 @@ export const ChatMessage = ({
             </div>
           </div>
         </div>
-      </div>
+      </li>
     );
   }
 
   if (position === "end") {
     return (
-      <div className="flex my-4 items-end justify-end">
+      <li className="flex my-4 items-end justify-end">
         <div className="flex flex-col flex-grow items-end">
           <p className="text-xs text-gray-500 pr-4">You {currentTime}</p>
           <div className="chat chat-end">
@@ -61,7 +61,7 @@ export const ChatMessage = ({
         <div className="avatar flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 bg-gray-100 ml-2 my-1 flex items-center justify-center">
           <PiFinnTheHuman className="text-3xl text-gray-500" />
         </div>
-      </div>
+      </li>
     );
   }
 };
