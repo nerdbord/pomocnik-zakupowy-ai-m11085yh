@@ -2,13 +2,21 @@
 import React from "react";
 import { LandingPic } from "@/assets/LandingPic";
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 
 type Props = {};
 
 export const Landing = () => {
   return (
     <div className="flex flex-col items-center p-0">
-      <h1 className="text-center text-xl not-italic font-semibold leading-7 py-12 px-6">
+      <div className="flex items-center gap-2 pt-12">
+        <Logo />
+        <h1 className="text-xl not-italic ">
+          Shop<span className="font-semibold ">Botek</span>
+        </h1>
+      </div>
+
+      <h1 className="text-center text-xl not-italic font-semibold leading-7 py-7 px-6">
         Ai Chat Shopping will help you find perfectly matched products
         effortlessly.
       </h1>

@@ -11,7 +11,9 @@ export const Header = ({ onAddClick }: Props) => {
     <div className="flex justify-between pb-2">
       <div className="flex items-center gap-2">
         <Logo />
-        <h1 className="text-xl not-italic font-semibold"> ShopBotek</h1>
+        <h1 className="text-xl not-italic ">
+          Shop<span className="font-semibold ">Botek</span>
+        </h1>
       </div>
 
       <div
