@@ -28,7 +28,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="h-[852px] w-[393px] border p-4 flex flex-col justify-between">
+    <>
       <Header onAddClick={handleAddClick} />
 
       <ul
@@ -46,6 +46,14 @@ export default function Home() {
                 loading={loading && m.role !== "system"}
               />
             )}
+            <ChatMessage
+              position="start"
+              message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quae incidunt, veritatis reprehenderit repudiandae assumenda repellendus aspernatur ad dignissimos autem veniam esse quam, suscipit neque tempore excepturi. Labore debitis fugit iure laborum eius nostrum amet incidunt odio a itaque aspernatur doloremque ipsum molestiae optio veniam, quae saepe, quisquam reiciendis! Odit."
+            />
+            <ChatMessage
+              position="end"
+              message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quae incidunt, veritatis reprehenderit repudiandae assumenda repellendus aspernatur ad dignissimos autem veniam esse quam, suscipit neque tempore excepturi. Labore debitis fugit iure laborum eius nostrum amet incidunt odio a itaque aspernatur doloremque ipsum molestiae optio veniam, quae saepe, quisquam reiciendis! Odit."
+            />
           </Fragment>
         ))}
       </ul>
@@ -62,6 +70,6 @@ export default function Home() {
           <RiArrowRightSLine size={28} />
         </button>
       </form>
-    </div>
+    </>
   );
 }
