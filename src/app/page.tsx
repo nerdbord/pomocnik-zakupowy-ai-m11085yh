@@ -44,7 +44,7 @@ export default function Home() {
                 position="start"
                 message={m.content}
                 avatarUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                loading={loading}
+                loading={loading && m.role !== "system"}
               />
             )}
           </Fragment>
