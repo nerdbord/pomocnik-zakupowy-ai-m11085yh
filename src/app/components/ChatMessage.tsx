@@ -27,7 +27,7 @@ export const ChatMessage = ({
   // Separate rendering based on the position prop
   if (position === "start") {
     return (
-      <div className="flex my-2 items-end">
+      <li className="flex my-2 items-end">
         <div className="avatar flex items-center mr-2">
           <div className="w-10 rounded-full">
             <img src={avatarUrl} alt="Avatar" />
@@ -41,13 +41,13 @@ export const ChatMessage = ({
             <div className="chat-bubble">{message}</div>
           </div>
         </div>
-      </div>
+      </li>
     );
   }
 
   if (position === "end") {
     return (
-      <div className="flex my-2 items-end justify-end">
+      <li className="flex my-2 items-end justify-end">
         <div className="flex flex-col items-end">
           <p className="text-xs text-gray-500 pr-4">You {currentTime}</p>
           <div className="chat chat-end">
@@ -59,7 +59,7 @@ export const ChatMessage = ({
             <img src={avatarUrl} alt="Avatar" />
           </div>
         </div>
-      </div>
+      </li>
     );
   }
 
