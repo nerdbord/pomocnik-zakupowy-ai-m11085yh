@@ -1,4 +1,5 @@
-﻿import { openai } from "@ai-sdk/openai";
+﻿import { findProductsLinks } from "@/app/api/tools/findProductsLinks";
+import { openai } from "@ai-sdk/openai";
 import { streamText, CoreMessage, tool } from "ai";
 import { z } from "zod";
 
@@ -40,32 +41,10 @@ export async function POST(req: Request) {
         }),
         execute: async ({ productDescription }) => {
           try {
-            const response = await fetch("https://api.tavily.com/search", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                api_key: API_KEY,
-                query: productDescription,
-                search_depth: "basic",
-                include_answer: false,
-                include_images: true,
-                include_raw_content: false,
-                max_results: 3,
-                include_domains: [],
-                exclude_domains: [],
-              }),
-            });
+            const productsLinks = await findProductsLinks(productDescription);
 
-            if (!response.ok) {
-              throw new Error("Failed to fetch");
-            }
-
-            const data: ProductSearchResponse = await response.json();
-
-            return data.results.map(r => ({ url: r.url, title: r.title }));
-          } catch (error: any) {
+            return productsLinks;
+          } catch (error) {
             console.error(error);
           }
         },

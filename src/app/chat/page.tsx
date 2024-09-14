@@ -19,8 +19,6 @@ export default function Home() {
 
   const loading = isLoading && !hasStartedTyping;
 
-  console.log("messages from chat", messages);
-
   const handleAddClick = () => {
     console.log("header button clicked");
   };
@@ -78,11 +76,24 @@ export default function Home() {
             const result = toolInvocation.result as {
               url: string;
               title: string;
+              image: string | null;
             }[];
+
             return (
-              <div>
-                <pre>{JSON.stringify(result, null, 2)}</pre>
-              </div>
+              <ul className="flex gap-3">
+                {result.map(r => (
+                  <li key={r.url} className="flex items-center gap-2">
+                    <a href={r.url} target="_blank" rel="noreferrer">
+                      <img
+                        src={r.image || "/placeholder.png"}
+                        alt={r.title}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
+                      <h3 className="text-sm font-semibold">{r.title}</h3>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             );
           } else {
             return (
@@ -102,7 +113,7 @@ export default function Home() {
         )}
       </ul>
 
-      <div className="flex gap-4 my-4 flex-wrap flex-shrink-0">
+      {/* <div className="flex gap-4 my-4 flex-wrap flex-shrink-0">
         <Pill text="Sports" />
         <Pill text="Running" />
         <Pill text="Blue" />
@@ -112,7 +123,7 @@ export default function Home() {
         <Pill text="Sports" />
         <Pill text="Running" />
         <Pill text="Blue" />
-      </div>
+      </div> */}
 
       <form
         className="flex items-center flex-shrink-0 mb-4"
