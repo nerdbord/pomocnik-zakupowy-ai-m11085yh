@@ -31,7 +31,7 @@ export const ChatMessage = ({
     return (
       <li className="flex my-4 items-end">
         <div className="avatar flex-shrink-0 w-12 h-12 rounded-full bg-black mr-2 my-1 flex items-center justify-center">
-          <RiRobot2Line className="text-3xl text-fuchsia-600" />
+          <RiRobot2Line className="text-3xl text-fuchsia-600" />;
         </div>
 
         <div className="flex flex-col flex-grow">
