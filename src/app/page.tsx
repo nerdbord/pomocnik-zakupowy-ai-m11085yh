@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Header } from "./components/Header";
-import { ChatMessage } from "./components/ChatMessage";
+import { Header } from "@/components/Header";
+import { ChatMessage } from "@/components/ChatMessage";
 import { RiArrowRightSLine } from "react-icons/ri";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-between h-[852px] w-[393px] border p-4 ">
+    <>
       <Header onAddClick={handleAddClick} />
 
       <div className="flex-grow overflow-y-auto mb-4 no-scrollbar">
@@ -41,6 +41,6 @@ export default function Home() {
           <RiArrowRightSLine size={28} />
         </button>
       </div>
-    </div>
+    </>
   );
 }
