@@ -1,5 +1,6 @@
 import React from "react";
 import { GoPlus } from "react-icons/go";
+import { Logo } from "./Logo";
 
 type Props = {
   onAddClick: () => void;
@@ -8,9 +9,13 @@ type Props = {
 export const Header = ({ onAddClick }: Props) => {
   return (
     <div className="flex justify-between pb-2">
-      <h1 className="text-xl not-italic font-semibold leading-7">AI Zakupy</h1>
+      <div className="flex items-center gap-2">
+        <Logo />
+        <h1 className="text-xl not-italic font-semibold"> ShopBotek</h1>
+      </div>
+
       <div
-        className="tooltip tooltip-info tooltip-left"
+        className="tooltip tooltip-secondary tooltip-left"
         data-tip="Create a new chat"
       >
         <button
