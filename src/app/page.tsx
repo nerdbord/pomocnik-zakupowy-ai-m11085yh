@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useRef, useState} from "react";
 import { Header } from "./components/Header";
 import { ChatMessage } from "./components/ChatMessage";
 import { Message, useChat } from "ai/react";
+import { RiArrowRightSLine } from "react-icons/ri";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input } = useChat();
@@ -27,23 +28,21 @@ export default function Home() {
   ];
 
   return (
-    <div className="h-[852px] w-[393px] border p-4 flex flex-col">
+    <div className="h-[852px] w-[393px] border p-4 flex flex-col justify-between">
       <Header onAddClick={handleAddClick} />
 
-      <ul ref={chatParent} className="overflow-y-auto">
+      <ul ref={chatParent} className="flex-grow overflow-y-auto mb-4 no-scrollbar">
         {messagesWithSystem.map(m => (
           <Fragment key={m.id}>
             {m.role === "user" ? (
               <ChatMessage
                 position="end"
                 message={m.content}
-                avatarUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
               />
             ) : (
               <ChatMessage
                 position="start"
                 message={m.content}
-                avatarUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                 loading={loading && m.role !== "system"}
               />
             )}
@@ -51,23 +50,18 @@ export default function Home() {
         ))}
       </ul>
 
-      <section className="p-4 mt-auto">
-        <form
-          onSubmit={handleSubmit}
-          className="flex w-full max-w-3xl mx-auto items-center"
-        >
-          <input
-            className="flex-1 min-h-[40px] border border-black rounded-md p-2"
-            placeholder="Type your question here..."
-            type="text"
-            value={input}
+      <form className="flex items-center" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter what you are looking for..."
+          className="input input-bordered w-full max-w-xs mr-2"
+          value={input}
             onChange={handleInputChange}
-          />
-          <button className="ml-2" type="submit">
-            Submit
-          </button>
-        </form>
-      </section>
+        />
+        <button className="btn btn-ghost">
+          <RiArrowRightSLine size={28} />
+        </button>
+      </form>
     </div>
   );
 }
