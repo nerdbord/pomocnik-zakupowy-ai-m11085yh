@@ -6,10 +6,17 @@ import { Message, useChat } from "ai/react";
 import { RiArrowRightSLine } from "react-icons/ri";
 
 export default function Home() {
-  const { messages, handleInputChange, handleSubmit, input } = useChat();
+  const { messages, handleInputChange, handleSubmit, input, isLoading } =
+    useChat();
   const chatParent = useRef<HTMLUListElement | null>(null);
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const [loading, setLoading] = useState(true);
+  const messagesWithSystem: Message[] = [
+    { role: "system", content: "How can I help you?", id: "1" },
+    ...messages,
+  ];
+
+  const loading = isLoading && !hasStartedTyping;
 
   const handleAddClick = () => {
     console.log("header button clicked");
@@ -22,10 +29,18 @@ export default function Home() {
     }
   });
 
-  const messagesWithSystem: Message[] = [
-    { role: "system", content: "How can I help you?", id: "1" },
-    ...messages,
-  ];
+  useEffect(() => {
+    if (isLoading) {
+      setHasStartedTyping(false);
+    }
+
+    const lastMessage = messagesWithSystem[messagesWithSystem.length - 1];
+
+    if (lastMessage && lastMessage.role === "assistant") {
+      console.log(lastMessage);
+      setHasStartedTyping(true);
+    }
+  }, [messagesWithSystem, isLoading]);
 
   return (
     <div className="flex flex-col h-full justify-between p-4">
@@ -37,19 +52,19 @@ export default function Home() {
         ref={chatParent}
         className="flex-grow overflow-y-auto mb-4 no-scrollbar p-2"
       >
-        {messagesWithSystem.map((m) => (
+        {messagesWithSystem.map(m => (
           <Fragment key={m.id}>
             {m.role === "user" ? (
               <ChatMessage position="end" message={m.content} />
             ) : (
-              <ChatMessage
-                position="start"
-                message={m.content}
-                /*          loading={loading && m.role !== "system"} */
-              />
+              <ChatMessage position="start" message={m.content} />
             )}
           </Fragment>
         ))}
+
+        {loading && (
+          <ChatMessage position="start" message="" loading={loading} />
+        )}
       </ul>
 
       <form className="flex items-center flex-shrink-0" onSubmit={handleSubmit}>
