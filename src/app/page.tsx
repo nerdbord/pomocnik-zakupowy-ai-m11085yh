@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState} from "react";
 import { Header } from "./components/Header";
 import { ChatMessage } from "./components/ChatMessage";
 import { Message, useChat } from "ai/react";
@@ -8,8 +8,10 @@ export default function Home() {
   const { messages, handleInputChange, handleSubmit, input } = useChat();
   const chatParent = useRef<HTMLUListElement | null>(null);
 
+  const [loading, setLoading] = useState(true);
+
   const handleAddClick = () => {
-    console.log("heder button clicked");
+    console.log("header button clicked");
   };
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function Home() {
                 position="start"
                 message={m.content}
                 avatarUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                loading={loading}
               />
             )}
           </Fragment>

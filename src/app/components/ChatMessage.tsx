@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 type ChatMessageProps = {
-  position: "start" | "end"; // Determines if the message is on the left or right
-  message: string; // Message text
-  avatarUrl: string; // URL for avatar image
+  position: "start" | "end";
+  message: string;
+  avatarUrl: string;
+  loading?: boolean;
 };
 
 export const ChatMessage = ({
   position,
   message,
   avatarUrl,
+  loading = false,
 }: ChatMessageProps) => {
   const [currentTime, setCurrentTime] = useState<string>("");
 
@@ -24,12 +26,11 @@ export const ChatMessage = ({
     setCurrentTime(getCurrentTime());
   }, []);
 
-  // Separate rendering based on the position prop
   if (position === "start") {
     return (
-      <li className="flex my-2 items-end">
+      <li className="flex my-4 items-end">
         <div className="avatar flex items-center mr-2">
-          <div className="w-10 rounded-full">
+          <div className="w-10 my-1 rounded-full">
             <img src={avatarUrl} alt="Avatar" />
           </div>
         </div>
@@ -38,7 +39,9 @@ export const ChatMessage = ({
             Shop assistance {currentTime}
           </p>
           <div className="chat chat-start">
-            <div className="chat-bubble">{message}</div>
+            <div className="chat-bubble min-w-16">
+              {loading ? <div className="loader"></div> : message}
+            </div>
           </div>
         </div>
       </li>
@@ -51,11 +54,11 @@ export const ChatMessage = ({
         <div className="flex flex-col items-end">
           <p className="text-xs text-gray-500 pr-4">You {currentTime}</p>
           <div className="chat chat-end">
-            <div className="chat-bubble">{message}</div>
+            <div className="chat-bubble min-w-16">{message}</div>
           </div>
         </div>
         <div className="avatar flex items-center ml-2">
-          <div className="w-10 rounded-full">
+          <div className="w-10 my-1 rounded-full">
             <img src={avatarUrl} alt="Avatar" />
           </div>
         </div>
