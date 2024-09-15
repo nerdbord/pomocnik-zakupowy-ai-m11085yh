@@ -1,6 +1,6 @@
 ﻿import { findProductsLinks } from "@/app/api/tools/findProductsLinks";
 import { openai } from "@ai-sdk/openai";
-import { streamText, CoreMessage, tool, generateText } from "ai";
+import { streamText, CoreMessage, tool } from "ai";
 import { z } from "zod";
 
 type ProductSearchResult = {

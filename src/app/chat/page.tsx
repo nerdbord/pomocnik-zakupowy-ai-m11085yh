@@ -15,8 +15,7 @@ export default function Home() {
     useChat({
       initialMessages: [
         { role: "system", content: "How can I help you?", id: "1" },
-      ],
-      onToolCall: () => setHasStartedTyping(true),
+      ]
     });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
