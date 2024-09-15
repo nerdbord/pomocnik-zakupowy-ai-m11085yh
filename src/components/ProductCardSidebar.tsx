@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { CloseX } from "@/assets/CloseX";
 
-type ProductCardProps = {
+type ProductCardPropsSidebar = {
   imageSrc: string;
   title: string;
   description: string;
@@ -10,7 +11,7 @@ type ProductCardProps = {
   productUrl: string;
 };
 
-export const ProductCard: React.FC<ProductCardProps> = ({
+export const ProductCardSidebar: React.FC<ProductCardPropsSidebar> = ({
   imageSrc,
   title,
   description,
