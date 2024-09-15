@@ -11,11 +11,13 @@ import { Sidebar } from "@/components/Sidebar";
 import { dummyProducts } from "@/data/dummyProducts";
 
 export default function Home() {
+  const [chatId, setChatId] = useState<number | null>(null);
   const { messages, handleInputChange, handleSubmit, input, isLoading, stop } =
     useChat({
       initialMessages: [
         { role: "system", content: "How can I help you?", id: "1" },
-      ]
+      ],
+      id: chatId?.toString(),
     });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -38,7 +40,7 @@ export default function Home() {
   const loading = isLoading && !hasStartedTyping;
 
   const handleAddClick = () => {
-    console.log("header button clicked");
+    setChatId(chatId => (chatId ?? 0) + 1);
   };
 
   useEffect(() => {
