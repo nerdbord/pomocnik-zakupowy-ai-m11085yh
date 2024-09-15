@@ -5,6 +5,8 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { useChat } from "ai/react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { Pill } from "@/components/Pill";
+import { ToolResults } from "@/components/ToolResults";
+import { Products } from "@/app/api/tools/findProductsWithBot";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input, isLoading, stop } =
@@ -73,39 +75,19 @@ export default function Home() {
           if (toolInvocation && toolInvocation.state === "result") {
             stop();
 
-            const result = toolInvocation.result as {
-              url: string;
-              title: string;
-              image: string | null;
-            }[];
+            const result = toolInvocation.result as Products;
 
-            return (
-              <ul className="flex gap-3">
-                {result.map(r => (
-                  <li key={r.url} className="flex items-center gap-2">
-                    <a href={r.url} target="_blank" rel="noreferrer">
-                      <img
-                        src={r.image || "/placeholder.png"}
-                        alt={r.title}
-                        className="w-16 h-16 rounded-lg object-cover"
-                      />
-                      <h3 className="text-sm font-semibold">{r.title}</h3>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            );
-          } else {
-            return (
-              <Fragment key={m.id}>
-                {m.content.length <= 1 ? null : m.role === "user" ? (
-                  <ChatMessage position="end" message={m.content} />
-                ) : (
-                  <ChatMessage position="start" message={m.content} />
-                )}
-              </Fragment>
-            );
+            return <ToolResults key={m.id} results={result.products} />;
           }
+
+          return m.content.length > 1 ? (
+            <Fragment key={m.id}>
+              <ChatMessage
+                position={m.role === "user" ? "end" : "start"}
+                message={m.content}
+              />
+            </Fragment>
+          ) : null;
         })}
 
         {loading && (

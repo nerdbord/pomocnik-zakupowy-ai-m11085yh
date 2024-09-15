@@ -1,4 +1,5 @@
 ﻿import { findProductsLinks } from "@/app/api/tools/findProductsLinks";
+import { findProductsLinksWithBot } from "@/app/api/tools/findProductsWithBot";
 import { openai } from "@ai-sdk/openai";
 import { streamText, CoreMessage, tool } from "ai";
 import { z } from "zod";
@@ -27,9 +28,9 @@ export async function POST(req: Request) {
   const { messages }: { messages: CoreMessage[] } = await req.json();
 
   const result = await streamText({
-    model: openai("gpt-4-turbo"),
+    model: openai("gpt-4o"),
     system:
-      "You are a shop assistant. You are helping a customer find a product. The customer will ask you for help. Firstly you need to ask the customer about the right product and then you need to find the products for the customer based on the information provided. Please, be super specific.",
+      "You are a shop assistant. You are helping a customer find a product. The customer will ask you for help. Firstly you need to ask the customer about the right product (e.g. firm, size, color, budget) and then you need to find the products for the customer based on the information provided. Please, be super specific.",
     messages: messages,
     tools: {
       findRightProducts: tool({
@@ -41,9 +42,16 @@ export async function POST(req: Request) {
         }),
         execute: async ({ productDescription }) => {
           try {
-            const productsLinks = await findProductsLinks(productDescription);
+            // const resp = await findProductsLinks(productDescription);
+            const resp = await findProductsLinksWithBot(productDescription);
 
-            return productsLinks;
+            console.dir(resp, { depth: 999 });
+
+            if (resp.type === "success") {
+              return resp.products;
+            } else {
+              throw new Error("Failed to find products");
+            }
           } catch (error) {
             console.error(error);
           }
