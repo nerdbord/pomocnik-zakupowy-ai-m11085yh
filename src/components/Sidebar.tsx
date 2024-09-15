@@ -18,7 +18,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         isOpen ? "translate-x-0" : "translate-x-[100%]"
       }`}
     >
-      <div className="flex justify-between gap-3 pt-10">
+      <div className="flex justify-between gap-3 pt-14">
         <p className="text-xl not-italic font-semibold leading-7 text-white pb-5">
           List of your links
         </p>

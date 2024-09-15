@@ -19,6 +19,52 @@ export default function Home() {
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      imageSrc:
+        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      title: "Nike",
+      description: "Sneakersy Airmax",
+      price: "500 $",
+      productUrl: "/product/nike-sneakers",
+    },
+    {
+      id: 2,
+      imageSrc:
+        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      title: "Nike",
+      description: "Sneakersy Airmax",
+      price: "500 $",
+      productUrl: "/product/nike-sneakers",
+    },
+    {
+      id: 3,
+      imageSrc:
+        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      title: "Nike",
+      description: "Sneakersy Airmax",
+      price: "500 $",
+      productUrl: "/product/nike-sneakers",
+    },
+    {
+      id: 4,
+      imageSrc:
+        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      title: "Nike",
+      description: "Sneakersy Airmax",
+      price: "500 $",
+      productUrl: "/product/nike-sneakers",
+    },
+  ]);
+
+  const handleDeleteProduct = (id: number) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== id)
+    );
+    console.log(`Product with id ${id} deleted`);
+  };
+
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
@@ -75,20 +121,17 @@ export default function Home() {
       }`}
     >
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
-        <ProductCardSidebar
-          imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          title="Nike"
-          description="Sneakersy Airmax"
-          price="500 $"
-          productUrl="/product/nike-sneakers"
-        />
-        <ProductCardSidebar
-          imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          title="Nike"
-          description="Sneakersy Airmax"
-          price="500 $"
-          productUrl="/product/nike-sneakers"
-        />
+        {products.map((product) => (
+          <ProductCardSidebar
+            key={product.id}
+            imageSrc={product.imageSrc}
+            title={product.title}
+            description={product.description}
+            price={product.price}
+            productUrl={product.productUrl}
+            onDelete={() => handleDeleteProduct(product.id)}
+          />
+        ))}
       </Sidebar>
 
       {/* Main Content */}
