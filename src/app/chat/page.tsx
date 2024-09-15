@@ -1,13 +1,15 @@
+// pages/index.tsx
 "use client";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { ChatMessage } from "@/components/ChatMessage";
 import { Message, useChat } from "ai/react";
-import { RiArrowRightSLine } from "react-icons/ri";
 import { Pill } from "@/components/Pill";
 import { SendArrow } from "@/assets/SendArrow";
 import { LeftArrow } from "@/assets/LeftArrow";
 import { ProductCard } from "@/components/ProductCard";
+import { Sidebar } from "@/components/Sidebar";
+import { ProductCardSidebar } from "@/components/ProductCardSidebar";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input, isLoading } =
@@ -15,6 +17,11 @@ export default function Home() {
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const messagesWithSystem: Message[] = [
     { role: "system", content: "How can I help you?", id: "1" },
@@ -62,7 +69,29 @@ export default function Home() {
   }, [messagesWithSystem, isLoading]);
 
   return (
-    <div className="flex flex-col h-full justify-between p-4">
+    <div
+      className={`flex flex-col h-full justify-between p-4 relative overflow-hidden transition-all duration-300 ${
+        isSidebarOpen ? "bg-black/50" : "bg-transparent"
+      }`}
+    >
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+        <ProductCardSidebar
+          imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+          title="Nike"
+          description="Sneakersy Airmax"
+          price="500 $"
+          productUrl="/product/nike-sneakers"
+        />
+        <ProductCardSidebar
+          imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+          title="Nike"
+          description="Sneakersy Airmax"
+          price="500 $"
+          productUrl="/product/nike-sneakers"
+        />
+      </Sidebar>
+
+      {/* Main Content */}
       <div className="flex-shrink-0">
         <Header onAddClick={handleAddClick} />
       </div>
@@ -87,8 +116,11 @@ export default function Home() {
       </ul>
 
       <div className="products-bg p-4">
-        <div className="cursor-pointer flex justify-between items-center pb-2 group">
-          <p className="text-xs not-italic font-normal leading-4 text-violet-300">
+        <div
+          onClick={toggleSidebar}
+          className="cursor-pointer flex justify-between items-center pb-2 group"
+        >
+          <p className=" cursor-pointertext-xs not-italic font-normal leading-4 text-violet-300">
             Click the title to go to product or list
           </p>
           <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" />
@@ -132,18 +164,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/*       <div className="flex gap-4 my-4 flex-wrap flex-shrink-0">
-        <Pill text="Sports" />
-        <Pill text="Running" />
-        <Pill text="Blue" />
-        <Pill text="Sports" />
-        <Pill text="Running" />
-        <Pill text="Blue" />
-        <Pill text="Sports" />
-        <Pill text="Running" />
-        <Pill text="Blue" />
-      </div> */}
 
       <form
         className="flex items-center flex-shrink-0 my-4"
