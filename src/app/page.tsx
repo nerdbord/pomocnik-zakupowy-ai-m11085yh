@@ -1,59 +1,62 @@
-"use client";
+'use client'
 
-import { type CoreMessage } from "ai";
-import { useState } from "react";
-import { continueConversation } from "./actions";
-import { readStreamableValue } from "ai/rsc";
+import { type CoreMessage } from 'ai'
+import { useState } from 'react'
+import { continueConversation } from './actions'
+import { readStreamableValue } from 'ai/rsc'
+import { Buttons } from './Buttons'
 
 // Allow streaming responses up to 30 seconds
-export const maxDuration = 30;
+export const maxDuration = 30
 
 export default function Chat() {
-  const [messages, setMessages] = useState<CoreMessage[]>([]);
-  const [input, setInput] = useState("");
-  const [data, setData] = useState<any>();
-  return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-      {messages.map((m, i) => (
-        <div key={i} className="whitespace-pre-wrap">
-          {m.role === "user" ? "User: " : "AI: "}
-          {m.content as string}
-        </div>
-      ))}
+	const [messages, setMessages] = useState<CoreMessage[]>([])
+	const [input, setInput] = useState('')
+	const [data, setData] = useState<any>()
 
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const newMessages: CoreMessage[] = [
-            ...messages,
-            { content: input, role: "user" },
-          ];
+	const handleReset = () => {
+		setMessages([])
+	}
 
-          setMessages(newMessages);
-          setInput("");
+	return (
+		<div className='flex flex-col w-full max-w-md py-24 mx-auto stretch'>
+			{data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+			{messages.map((m, i) => (
+				<div key={i} className='whitespace-pre-wrap'>
+					{m.role === 'user' ? 'User: ' : 'AI: '}
+					{m.content as string}
+				</div>
+			))}
 
-          const result = await continueConversation(newMessages);
-          setData(result.data);
+			<form
+				onSubmit={async e => {
+					e.preventDefault()
+					const newMessages: CoreMessage[] = [...messages, { content: input, role: 'user' }]
 
-          for await (const content of readStreamableValue(result.message)) {
-            setMessages([
-              ...newMessages,
-              {
-                role: "assistant",
-                content: content as string,
-              },
-            ]);
-          }
-        }}
-      >
-        <input
-          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border text-black border-gray-300 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={(e) => setInput(e.target.value)}
-        />
-      </form>
-    </div>
-  );
+					setMessages(newMessages)
+					setInput('')
+
+					const result = await continueConversation(newMessages)
+					setData(result.data)
+
+					for await (const content of readStreamableValue(result.message)) {
+						setMessages([
+							...newMessages,
+							{
+								role: 'assistant',
+								content: content as string,
+							},
+						])
+					}
+				}}>
+				<input
+					className='fixed bottom-0 w-full max-w-md p-2 mb-8 border text-black border-gray-300 rounded shadow-xl'
+					value={input}
+					placeholder='Say something...'
+					onChange={e => setInput(e.target.value)}
+				/>
+			<Buttons onReset={handleReset} />
+			</form>
+		</div>
+	)
 }
