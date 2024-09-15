@@ -8,10 +8,10 @@ type Props = {
 
 export const Header = ({ onAddClick }: Props) => {
   return (
-    <div className="flex justify-between pb-2">
-      <div className="flex items-center gap-2">
+    <div className="relative flex justify-end pb-2">
+      <div className="flex items-center gap-2 absolute top-1/4 left-1/3">
         <Logo />
-        <h1 className="text-xl not-italic ">
+        <h1 className="not-italic leading-normal">
           Shop<span className="font-semibold ">Botek</span>
         </h1>
       </div>
