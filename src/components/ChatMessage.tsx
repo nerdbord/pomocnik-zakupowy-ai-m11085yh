@@ -39,7 +39,7 @@ export const ChatMessage = ({
             ShopBotek <span className="text-zinc-400">{currentTime}</span>
           </p>
           <div className="chat chat-start">
-            <div className="chat-bubble min-w-16 max-w-full bg-violet-500">
+            <div className="chat-bubble min-w-16 max-w-full bg-violet-500 shadow-lg">
               {loading ? <div className="loader"></div> : message}
             </div>
           </div>
@@ -56,7 +56,7 @@ export const ChatMessage = ({
             You <span className="text-zinc-400">{currentTime}</span>
           </p>
           <div className="chat chat-end">
-            <div className="chat-bubble min-w-16 max-w-full bg-fuchsia-600">
+            <div className="chat-bubble min-w-16 max-w-full bg-fuchsia-600 shadow-lg">
               {message}
             </div>
           </div>
