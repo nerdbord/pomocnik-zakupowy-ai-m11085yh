@@ -2,77 +2,72 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { ChatMessage } from "@/components/ChatMessage";
-import { Message, useChat } from "ai/react";
-import { Pill } from "@/components/Pill";
+import { useChat } from "ai/react";
+import { Products } from "@/app/api/tools/findProductsWithBot";
 import { SendArrow } from "@/assets/SendArrow";
-import { LeftArrow } from "@/assets/LeftArrow";
 import { ProductCard } from "@/components/ProductCard";
-import { Sidebar } from "@/components/Sidebar";
-import { ProductCardSidebar } from "@/components/ProductCardSidebar";
-import { truncate } from "fs";
 
 export default function Home() {
-  const { messages, handleInputChange, handleSubmit, input, isLoading } =
-    useChat();
+  const { messages, handleInputChange, handleSubmit, input, isLoading, stop } =
+    useChat({
+      initialMessages: [
+        { role: "system", content: "How can I help you?", id: "1" },
+      ],
+    });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      imageSrc:
-        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-      title: "Nike",
-      description: "Sneakersy Airmax",
-      price: "500 $",
-      productUrl: "/product/nike-sneakers",
-    },
-    {
-      id: 2,
-      imageSrc:
-        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-      title: "Nike",
-      description: "Sneakersy Airmax",
-      price: "500 $",
-      productUrl: "/product/nike-sneakers",
-    },
-    {
-      id: 3,
-      imageSrc:
-        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-      title: "Nike",
-      description: "Sneakersy Airmax",
-      price: "500 $",
-      productUrl: "/product/nike-sneakers",
-    },
-    {
-      id: 4,
-      imageSrc:
-        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-      title: "Nike",
-      description: "Sneakersy Airmax",
-      price: "500 $",
-      productUrl: "/product/nike-sneakers",
-    },
-  ]);
+  // const [products, setProducts] = useState([
+  //   {
+  //     id: 1,
+  //     imageSrc:
+  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+  //     title: "Nike",
+  //     description: "Sneakersy Airmax",
+  //     price: "500 $",
+  //     productUrl: "/product/nike-sneakers",
+  //   },
+  //   {
+  //     id: 2,
+  //     imageSrc:
+  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+  //     title: "Nike",
+  //     description: "Sneakersy Airmax",
+  //     price: "500 $",
+  //     productUrl: "/product/nike-sneakers",
+  //   },
+  //   {
+  //     id: 3,
+  //     imageSrc:
+  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+  //     title: "Nike",
+  //     description: "Sneakersy Airmax",
+  //     price: "500 $",
+  //     productUrl: "/product/nike-sneakers",
+  //   },
+  //   {
+  //     id: 4,
+  //     imageSrc:
+  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+  //     title: "Nike",
+  //     description: "Sneakersy Airmax",
+  //     price: "500 $",
+  //     productUrl: "/product/nike-sneakers",
+  //   },
+  // ]);
 
-  const handleDeleteProduct = (id: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    );
-    console.log(`Product with id ${id} deleted`);
-  };
+  // const handleDeleteProduct = (id: number) => {
+  //   setProducts(prevProducts =>
+  //     prevProducts.filter(product => product.id !== id),
+  //   );
+  //   console.log(`Product with id ${id} deleted`);
+  // };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
-
-  const messagesWithSystem: Message[] = [
-    { role: "system", content: "How can I help you?", id: "1" },
-    ...messages,
-  ];
+  // const toggleSidebar = () => {
+  //   setIsSidebarOpen(prev => !prev);
+  // };
 
   const loading = isLoading && !hasStartedTyping;
 
@@ -107,12 +102,12 @@ export default function Home() {
       setHasStartedTyping(false);
     }
 
-    const lastMessage = messagesWithSystem[messagesWithSystem.length - 1];
+    const lastMessage = messages[messages.length - 1];
 
     if (lastMessage && lastMessage.role === "assistant") {
       setHasStartedTyping(true);
     }
-  }, [messagesWithSystem, isLoading]);
+  }, [messages]);
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -150,8 +145,8 @@ export default function Home() {
         </div>
       )}
 
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
-        {products.map((product) => (
+      {/* <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+        {products.map(product => (
           <ProductCardSidebar
             key={product.id}
             imageSrc={product.imageSrc}
@@ -162,7 +157,7 @@ export default function Home() {
             onDelete={() => handleDeleteProduct(product.id)}
           />
         ))}
-      </Sidebar>
+      </Sidebar> */}
 
       {/* Main Content */}
       <div className="flex-shrink-0">
@@ -173,71 +168,62 @@ export default function Home() {
         ref={chatParent}
         className="flex-grow overflow-y-auto mb-4 no-scrollbar p-2"
       >
-        {messagesWithSystem.map((m) => (
-          <Fragment key={m.id}>
-            {m.role === "user" ? (
-              <ChatMessage position="end" message={m.content} />
-            ) : (
-              <ChatMessage position="start" message={m.content} />
-            )}
-          </Fragment>
-        ))}
+        {messages.map(m => {
+          const toolInvocation = m.toolInvocations?.[0];
+
+          if (toolInvocation && toolInvocation.state === "result") {
+            stop();
+
+            const result = toolInvocation.result as Products;
+
+            return (
+              <div className="products-bg p-4">
+                <div
+                  // onClick={toggleSidebar}
+                  className=" flex justify-between items-center pb-2 group"
+                >
+                  <p className="text-xs not-italic font-normal leading-4 text-violet-300">
+                    {/* Click the title to go to product or list */}
+                    Click the tile to go to product
+                  </p>
+                  {/* <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" /> */}
+                </div>
+
+                <ul className="grid grid-cols-3 gap-4 mt-4">
+                  {result.products.map(r => (
+                    <li
+                      key={r.url}
+                      className="flex flex-col justify-between gap-4"
+                    >
+                      <ProductCard
+                        title={""}
+                        imageSrc={r.image}
+                        price={`${r.price} ${r.currency}`}
+                        productUrl={r.url}
+                        description={r.title}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+
+          return m.content.length > 1 ? (
+            <Fragment key={m.id}>
+              <ChatMessage
+                position={m.role === "user" ? "end" : "start"}
+                message={m.content}
+              />
+            </Fragment>
+          ) : null;
+        })}
 
         {loading && (
           <ChatMessage position="start" message="" loading={loading} />
         )}
       </ul>
 
-      {/*     <div className="products-bg p-4">
-        <div
-          onClick={toggleSidebar}
-          className="cursor-pointer flex justify-between items-center pb-2 group"
-        >
-          <p className="cursor-pointertext-xs not-italic font-normal leading-4 text-violet-300">
-            Click the title to go to product or list
-          </p>
-          <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" />
-        </div>
-
-        <div className="grid grid-cols-3 gap-4 mt-4">
-          <div className="flex flex-col justify-between gap-4">
-            <p className="text-center">The most expensive</p>
-            <ProductCard
-              imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              title="Nike"
-              description="Sneakersy Airmax"
-              price="500 $"
-              productUrl="/product/nike-sneakers"
-            />
-          </div>
-
-          <div className="flex flex-col justify-between gap-4">
-            <p className="text-center">
-              The
-              <br /> cheapest
-            </p>
-            <ProductCard
-              imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              title="Nike"
-              description="Sneakersy Airmax"
-              price="500 $"
-              productUrl="/product/nike-sneakers"
-            />
-          </div>
-
-          <div className="flex flex-col justify-between gap-4">
-            <p className="text-center">The most fitting</p>
-            <ProductCard
-              imageSrc="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              title="Nike"
-              description="Sneakersy Airmax"
-              price="500 $"
-              productUrl="/product/nike-sneakers"
-            />
-          </div>
-        </div>
-      </div>
- */}
       <form
         className="flex items-center flex-shrink-0 my-4"
         onSubmit={handleFormSubmit}
