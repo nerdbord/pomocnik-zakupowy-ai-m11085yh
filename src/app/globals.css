@@ -33,6 +33,15 @@ button {
   );
 }
 
+.products-bg {
+  border-radius: 10px;
+  background: var(
+    --Gradient-kafla,
+    linear-gradient(180deg, #8b5cf6 0.15%, #5b21b6 99.85%)
+  );
+  box-shadow: 0px 4px 31px 0px rgba(0, 0, 0, 0.25);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
