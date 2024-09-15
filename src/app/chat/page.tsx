@@ -141,9 +141,9 @@ export default function Home() {
               to buy.
               <br /> For example, try typing:
               <ul className="list-disc list-inside">
-                <li>"I need to buy running shoes."</li>
-                <li>"Looking for football sneakers."</li>
-                <li>"Searching for sports shoes for basketball."</li>
+                <li>I need to buy running shoes.</li>
+                <li>Looking for football sneakers.</li>
+                <li>Searching for sports shoes for basketball.</li>
               </ul>
             </span>
           </div>
