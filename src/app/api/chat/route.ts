@@ -1,7 +1,6 @@
 ﻿import { findProductsLinks } from "@/app/api/tools/findProductsLinks";
-import { findProductsLinksWithBot } from "@/app/api/tools/findProductsWithBot";
 import { openai } from "@ai-sdk/openai";
-import { streamText, CoreMessage, tool } from "ai";
+import { streamText, CoreMessage, tool, generateText } from "ai";
 import { z } from "zod";
 
 type ProductSearchResult = {
@@ -41,16 +40,9 @@ export async function POST(req: Request) {
         }),
         execute: async ({ productDescription }) => {
           try {
-            // const resp = await findProductsLinks(productDescription);
-            const resp = await findProductsLinksWithBot(productDescription);
+            const resp = await findProductsLinks(productDescription);
 
-            console.dir(resp, { depth: 999 });
-
-            if (resp.type === "success") {
-              return resp.products;
-            } else {
-              throw new Error("Failed to find products");
-            }
+            return resp;
           } catch (error) {
             console.error(error);
           }
