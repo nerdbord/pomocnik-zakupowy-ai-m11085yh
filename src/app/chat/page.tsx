@@ -1,4 +1,3 @@
-// pages/index.tsx
 "use client";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
@@ -10,6 +9,7 @@ import { LeftArrow } from "@/assets/LeftArrow";
 import { ProductCard } from "@/components/ProductCard";
 import { Sidebar } from "@/components/Sidebar";
 import { ProductCardSidebar } from "@/components/ProductCardSidebar";
+import { truncate } from "fs";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input, isLoading } =
@@ -18,7 +18,7 @@ export default function Home() {
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -114,12 +114,42 @@ export default function Home() {
     }
   }, [messagesWithSystem, isLoading]);
 
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!input.trim()) {
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return;
+    }
+    handleSubmit(event);
+  };
+
   return (
     <div
       className={`flex flex-col h-full justify-between p-4 relative overflow-hidden transition-all duration-300 ${
         isSidebarOpen ? "bg-black/50" : "bg-transparent"
       }`}
     >
+      {/* Toast for empty input */}
+      {showToast && (
+        <div className="toast bottom-20 left-0 absolute z-10 ">
+          <div className="p-4 rounded-xl bg-violet-500">
+            <span>
+              The input cannot be empty! <br /> Please tell us what you'd like
+              to buy.
+              <br /> For example, try typing:
+              <ul className="list-disc list-inside">
+                <li>I need to buy running shoes.</li>
+                <li>Looking for football sneakers.</li>
+                <li>Searching for sports shoes for basketball.</li>
+              </ul>
+            </span>
+          </div>
+        </div>
+      )}
+
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
         {products.map((product) => (
           <ProductCardSidebar
@@ -158,12 +188,12 @@ export default function Home() {
         )}
       </ul>
 
-      <div className="products-bg p-4">
+      {/*     <div className="products-bg p-4">
         <div
           onClick={toggleSidebar}
           className="cursor-pointer flex justify-between items-center pb-2 group"
         >
-          <p className=" cursor-pointertext-xs not-italic font-normal leading-4 text-violet-300">
+          <p className="cursor-pointertext-xs not-italic font-normal leading-4 text-violet-300">
             Click the title to go to product or list
           </p>
           <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" />
@@ -207,10 +237,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+ */}
       <form
         className="flex items-center flex-shrink-0 my-4"
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         <textarea
           ref={inputRef}

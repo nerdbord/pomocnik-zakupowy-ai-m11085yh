@@ -19,7 +19,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   return (
     <Link href={productUrl}>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <div className="card bg-violet-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 gap-0">
           <figure>
             <img className="rounded-md" src={imageSrc} alt={title} />
