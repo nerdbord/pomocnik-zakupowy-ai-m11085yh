@@ -18,11 +18,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   productUrl,
 }) => {
   return (
-    <Link href={productUrl}>
-      <div className="flex flex-col justify-between ">
-        <div className="card bg-violet-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 gap-0">
-          <figure>
-            <img className="rounded-md" src={imageSrc} alt={title} />
+    <Link href={productUrl} className="grow" target="_blank" rel="noreferrer">
+      <div className="flex flex-col justify-between h-full">
+        <div className="card bg-violet-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 gap-0 grow">
+          <figure className="w-full h-16">
+            <img
+              className="rounded-md text-slate-900 text-xs "
+              src={imageSrc}
+              alt="Product image"
+            />
           </figure>
           <div className="card-body p-3 text-slate-900 gap-0 text-sm not-italic font-normal leading-5">
             <h2 className="card-title truncate">{title}</h2>

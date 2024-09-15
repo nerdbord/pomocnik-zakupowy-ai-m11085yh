@@ -33,7 +33,7 @@ export const findProductsLinks = async (productDescription: string) => {
       },
       body: JSON.stringify({
         api_key: API_KEY,
-        query: productDescription,
+        query: `${productDescription}, prawdziwe linki do produktów`,
         search_depth: "basic",
         include_answer: false,
         include_images: true,

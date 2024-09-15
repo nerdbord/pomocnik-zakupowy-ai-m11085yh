@@ -5,8 +5,9 @@ import { z } from "zod";
 const productItemSchema = z.object({
   title: z.string(),
   url: z.string(),
-  image: z.string().nullable(),
-  price: z.number(),
+  image: z.string(),
+  price: z.string(),
+  currency: z.string(),
 });
 
 const productsSchema = z.object({
@@ -24,7 +25,7 @@ export const findProductsLinksWithBot = async (
   | { type: "validation-error"; value: unknown }
   | { type: "unknown-error"; error: unknown }
 > => {
-  const PROMPT = `Find the products links for the given product description: ${productDescription}. Make sure the links are relevant and accurate, the product is available for purchase what means it has button "Buy now", and the links are from reputable sources. When you find the links, provide the title, URL, image, and price for each product and generate message for user like: "Here are the products". If you can't find any products, please let the user know.`;
+  const PROMPT = `Jesteś asystentem sklepowym. Dostaniesz opis tego czego szuka i potrzebuje uzytkownik. Opis: ${productDescription}. Proszę abyś znalazł linki do stron z produktami spełniającymi opis podany przez użytkownika. Gdyby opis był nie wystarczający, masz dopytać użytkownika aby uzyskać więcej informacji. Linki mają być prawdziwe, to znaczy prowadzić do stron z rzeczywistymi produktami, które można zakupić (np. allegro.pl itp.).`;
 
   try {
     const resp = await generateObject({

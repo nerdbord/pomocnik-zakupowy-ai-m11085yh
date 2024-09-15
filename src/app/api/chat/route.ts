@@ -22,7 +22,6 @@ type ProductSearchResponse = {
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
-const API_KEY = process.env.NEXT_PUBLIC_TAVILY_API_KEY;
 
 export async function POST(req: Request) {
   const { messages }: { messages: CoreMessage[] } = await req.json();
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
   const result = await streamText({
     model: openai("gpt-4o"),
     system:
-      "You are a shop assistant. You are helping a customer find a product. The customer will ask you for help. Firstly you need to ask the customer about the right product (e.g. firm, size, color, budget) and then you need to find the products for the customer based on the information provided. Please, be super specific.",
+      "Jesteś asystentem sklepowym. Będziesz pomagał użytkownikowi w znalezieniu odpowiedniego produktu dla niego w internecie. Najpierw wypytaj użytkownika o szczegóły dotyczące produktu (np. marka, rozmiar, kolor, cenę, itp.), a następnie znajdź dla niego produkty na podstawie podanych informacji. Proszę, bądź bardzo konkretny.",
     messages: messages,
     tools: {
       findRightProducts: tool({
