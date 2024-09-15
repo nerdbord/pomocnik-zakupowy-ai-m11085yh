@@ -36,7 +36,7 @@ export const ChatMessage = ({
 
         <div className="flex flex-col flex-grow">
           <p className="text-xs text-zinc-300 pl-4">
-            Shop assistance <span className="text-zinc-400">{currentTime}</span>
+            ShopBotek <span className="text-zinc-400">{currentTime}</span>
           </p>
           <div className="chat chat-start">
             <div className="chat-bubble min-w-16 max-w-full bg-violet-500">

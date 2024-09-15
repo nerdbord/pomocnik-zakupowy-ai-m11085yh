@@ -11,7 +11,7 @@ export const Landing = () => {
     <div className="flex flex-col items-center p-0">
       <div className="flex items-center gap-2 pt-12">
         <Logo />
-        <h1 className="text-xl not-italic ">
+        <h1 className="leading-normal not-italic">
           Shop<span className="font-semibold ">Botek</span>
         </h1>
       </div>
