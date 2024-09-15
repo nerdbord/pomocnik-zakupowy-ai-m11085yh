@@ -15,7 +15,7 @@ export default function Home() {
     useChat({
       initialMessages: [
         { role: "system", content: "How can I help you?", id: "1" },
-      ]
+      ],
     });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -25,14 +25,14 @@ export default function Home() {
   const [products, setProducts] = useState(dummyProducts);
 
   const handleDeleteProduct = (id: number) => {
-    setProducts(prevProducts =>
-      prevProducts.filter(product => product.id !== id),
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== id)
     );
     console.log(`Product with id ${id} deleted`);
   };
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(prev => !prev);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const loading = isLoading && !hasStartedTyping;
@@ -112,7 +112,7 @@ export default function Home() {
       )}
 
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
-        {products.map(product => (
+        {products.map((product) => (
           <ProductCardSidebar
             key={product.id}
             imageSrc={product.imageSrc}
@@ -134,7 +134,7 @@ export default function Home() {
         ref={chatParent}
         className="flex-grow overflow-y-auto mb-4 no-scrollbar p-2"
       >
-        {messages.map(m => {
+        {messages.map((m) => {
           const toolInvocation = m.toolInvocations?.[0];
 
           if (toolInvocation && toolInvocation.state === "result") {
@@ -147,7 +147,7 @@ export default function Home() {
             }[];
 
             return (
-              <div className="products-bg p-4">
+              <div className="products-bg p-4 shadow-lg">
                 <div
                   onClick={toggleSidebar}
                   className="cursor-pointer flex justify-between items-center pb-2 group"
@@ -159,7 +159,7 @@ export default function Home() {
                 </div>
 
                 <ul className="grid grid-cols-3 gap-4 mt-4">
-                  {result.map(r => (
+                  {result.map((r) => (
                     <li
                       key={r.url}
                       className="flex flex-col justify-between gap-4"
@@ -194,7 +194,7 @@ export default function Home() {
       </ul>
 
       <form
-        className="flex items-center flex-shrink-0 my-4"
+        className="flex items-center flex-shrink-0 mb-4"
         onSubmit={handleFormSubmit}
       >
         <textarea
