@@ -3,71 +3,37 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { ChatMessage } from "@/components/ChatMessage";
 import { useChat } from "ai/react";
-import { Products } from "@/app/api/tools/findProductsWithBot";
 import { SendArrow } from "@/assets/SendArrow";
 import { ProductCard } from "@/components/ProductCard";
+import { LeftArrow } from "@/assets/LeftArrow";
+import { ProductCardSidebar } from "@/components/ProductCardSidebar";
+import { Sidebar } from "@/components/Sidebar";
+import { dummyProducts } from "@/data/dummyProducts";
 
 export default function Home() {
   const { messages, handleInputChange, handleSubmit, input, isLoading, stop } =
     useChat({
       initialMessages: [
         { role: "system", content: "How can I help you?", id: "1" },
-      ],
+      ]
     });
   const chatParent = useRef<HTMLUListElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  // const [products, setProducts] = useState([
-  //   {
-  //     id: 1,
-  //     imageSrc:
-  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-  //     title: "Nike",
-  //     description: "Sneakersy Airmax",
-  //     price: "500 $",
-  //     productUrl: "/product/nike-sneakers",
-  //   },
-  //   {
-  //     id: 2,
-  //     imageSrc:
-  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-  //     title: "Nike",
-  //     description: "Sneakersy Airmax",
-  //     price: "500 $",
-  //     productUrl: "/product/nike-sneakers",
-  //   },
-  //   {
-  //     id: 3,
-  //     imageSrc:
-  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-  //     title: "Nike",
-  //     description: "Sneakersy Airmax",
-  //     price: "500 $",
-  //     productUrl: "/product/nike-sneakers",
-  //   },
-  //   {
-  //     id: 4,
-  //     imageSrc:
-  //       "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-  //     title: "Nike",
-  //     description: "Sneakersy Airmax",
-  //     price: "500 $",
-  //     productUrl: "/product/nike-sneakers",
-  //   },
-  // ]);
+  const [products, setProducts] = useState(dummyProducts);
 
-  // const handleDeleteProduct = (id: number) => {
-  //   setProducts(prevProducts =>
-  //     prevProducts.filter(product => product.id !== id),
-  //   );
-  //   console.log(`Product with id ${id} deleted`);
-  // };
+  const handleDeleteProduct = (id: number) => {
+    setProducts(prevProducts =>
+      prevProducts.filter(product => product.id !== id),
+    );
+    console.log(`Product with id ${id} deleted`);
+  };
 
-  // const toggleSidebar = () => {
-  //   setIsSidebarOpen(prev => !prev);
-  // };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
 
   const loading = isLoading && !hasStartedTyping;
 
@@ -145,7 +111,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
         {products.map(product => (
           <ProductCardSidebar
             key={product.id}
@@ -157,7 +123,7 @@ export default function Home() {
             onDelete={() => handleDeleteProduct(product.id)}
           />
         ))}
-      </Sidebar> */}
+      </Sidebar>
 
       {/* Main Content */}
       <div className="flex-shrink-0">
@@ -174,23 +140,26 @@ export default function Home() {
           if (toolInvocation && toolInvocation.state === "result") {
             stop();
 
-            const result = toolInvocation.result as Products;
+            const result = toolInvocation.result as {
+              title: string;
+              url: string;
+              image: string;
+            }[];
 
             return (
               <div className="products-bg p-4">
                 <div
-                  // onClick={toggleSidebar}
-                  className=" flex justify-between items-center pb-2 group"
+                  onClick={toggleSidebar}
+                  className="cursor-pointer flex justify-between items-center pb-2 group"
                 >
-                  <p className="text-xs not-italic font-normal leading-4 text-violet-300">
-                    {/* Click the title to go to product or list */}
-                    Click the tile to go to product
+                  <p className="cursor-pointer text-xs not-italic font-normal leading-4 text-violet-300">
+                    Click the title to go to product or list
                   </p>
-                  {/* <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" /> */}
+                  <LeftArrow className="transition-transform duration-300 group-hover:translate-x-2" />
                 </div>
 
                 <ul className="grid grid-cols-3 gap-4 mt-4">
-                  {result.products.map(r => (
+                  {result.map(r => (
                     <li
                       key={r.url}
                       className="flex flex-col justify-between gap-4"
@@ -198,7 +167,7 @@ export default function Home() {
                       <ProductCard
                         title={""}
                         imageSrc={r.image}
-                        price={`${r.price} ${r.currency}`}
+                        price={""}
                         productUrl={r.url}
                         description={r.title}
                       />
