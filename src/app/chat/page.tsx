@@ -159,6 +159,11 @@ export default function Home() {
                 </div>
 
                 <ul className="grid grid-cols-3 gap-4 mt-4">
+                  {result.length === 0 && (
+                    <li className="text-violet-300 text-xs not-italic font-normal leading-4">
+                      No products found
+                    </li>
+                  )}
                   {result.map((r) => (
                     <li
                       key={r.url}
